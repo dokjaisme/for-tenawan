@@ -2,7 +2,7 @@
 
 Website kecil-kecilan ini di-deploy khusus buat ngerayain hari ulang tahunnya si bocil kesayangan, Awan!
 
-## How to Play (Untuk Awan) (っ´▽｀)っ
+## How to Play (っ´▽｀)っ
 
 1. Buka _link_ web ini di browser HP kamu.
 2. Nanti bakal ada notifikasi minta izin akses mikrofon, di-**Allow** aja ya (tenang, ini aman kok!).
