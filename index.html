@@ -96,23 +96,13 @@
 
           function detectBlow() {
             analyser.getByteFrequencyData(dataArray);
-            let highFreqSum = 0;
-            let lowFreqSum = 0;
-            const midpoint = dataArray.length / 2;
+            let sum = 0;
             for (let i = 0; i < dataArray.length; i++) {
-              if (i < midpoint) {
-                lowFreqSum += dataArray[i];
-              } else {
-                highFreqSum += dataArray[i];
-              }
+              sum += dataArray[i];
             }
-            const highAvg = highFreqSum / (dataArray.length / 2);
-            const lowAvg = lowFreqSum / (dataArray.length / 2);
-            const ratio = highAvg / (lowAvg + 1);
-
-            // Sensitivitas dinaikkan jadi 0.1 agar lebih peka[cite: 1]
-            const BLOW_RATIO_THRESHOLD = 0.1;
-            if (ratio > BLOW_RATIO_THRESHOLD && !blown) {
+            let average = sum / dataArray.length;
+            // Kalau volumenya keras (teriak atau tiupan kencang), lilin mati
+            if (average > 50 && !blown) {
               blown = true;
               blowOutCandles();
             }
