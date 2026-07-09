@@ -11,18 +11,6 @@
       href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400..700&display=swap"
       rel="stylesheet"
     />
-    <style>
-      #mainTitle {
-        font-size: 32px;
-        font-family: "Pixelify Sans", sans-serif;
-        margin-bottom: 8px;
-      }
-      #subTitle {
-        font-size: 18px;
-        font-family: "Pixelify Sans", sans-serif;
-        color: #555;
-      }
-    </style>
   </head>
   <body>
     <div class="container">
@@ -30,17 +18,50 @@
       <div class="cake-container">
         <div class="cake" id="cake"></div>
       </div>
+      <!-- Tombol Buku Album Art -->
+      <button id="galleryBtn" onclick="openGallery()">
+        Open Our Art Book 📖
+      </button>
     </div>
+
+    <!-- Modal Carousel Ala Buku / Album -->
+    <div id="galleryPopup">
+      <button class="close-btn" onclick="closeGallery()">X</button>
+      <h2>Our Memory Book ✨</h2>
+
+      <div class="carousel-container">
+        <button class="nav-btn" onclick="prevSlide()">◀</button>
+        <div class="slide-content">
+          <img id="carouselImg" src="" alt="Art Carousel" />
+          <div id="slideCounter" class="slide-counter">1 / 9</div>
+        </div>
+        <button class="nav-btn" onclick="nextSlide()">▶</button>
+      </div>
+
+      <div class="action-row">
+        <a
+          id="downloadBtn"
+          href=""
+          download
+          class="download-btn"
+          target="_blank"
+          >Download Here</a
+        >
+      </div>
+    </div>
+
     <script>
       const params = new URLSearchParams(window.location.search);
       const name = params.get("name") || "Cil XD";
       let candleCount = parseInt(params.get("candles")) || 4;
       candleCount = Math.min(Math.max(candleCount, 1), 30);
+
       const birthdayText = document.getElementById("birthdayText");
-      birthdayText.innerHTML = `         
-        <div id="mainTitle">Happy Birthday, ${name}!</div>         
-        <div id="subTitle">Make a wish and blow candles.</div>       
+      birthdayText.innerHTML = `
+        <div id="mainTitle">Happy Birthday, ${name}!</div>
+        <div id="subTitle">Make a wish and blow candles.</div>
       `;
+
       const cake = document.getElementById("cake");
       const colors = [
         "green-candle",
@@ -55,8 +76,8 @@
         const CANDLE_VISUAL_WIDTH = 2;
         const availableWidth = CAKE_VISUAL_WIDTH;
         const candlesPerRow = 6;
-        const rowCount = Math.ceil(count / candlesPerRow);
         const shiftAmount = 4;
+
         for (let i = 0; i < count; i++) {
           const candle = document.createElement("div");
           candle.classList.add("candle");
@@ -71,6 +92,7 @@
           const rowSpacing = availableWidth / (totalCandlesInRow + 1);
           const leftBase = rowSpacing * (col + 1) - CANDLE_VISUAL_WIDTH / 2 + 5;
           const rowShift = row % 2 === 0 ? 0 : shiftAmount;
+
           candle.style.position = "absolute";
           candle.style.top = `${10 + row * 3}px`;
           candle.style.left = `${leftBase - rowShift + 4}px`;
@@ -101,7 +123,7 @@
               sum += dataArray[i];
             }
             let average = sum / dataArray.length;
-            // Kalau volumenya keras (teriak atau tiupan kencang), lilin mati
+
             if (average > 50 && !blown) {
               blown = true;
               blowOutCandles();
@@ -126,12 +148,51 @@
             });
           }, delay);
         });
+
         setTimeout(() => {
           const subTitle = document.getElementById("subTitle");
-          subTitle.textContent =
-            "Yayy! Wishing you the happiest birthday ever!!";
+          subTitle.innerHTML = `
+            Yayy! Wishing you the happiest birthday ever!! ٩(◕‿◕)۶<br><br>
+            <a href="https://www.greetingsisland.com/ecard/p4fjueer413u" target="_blank" class="greeting-link">
+               Open My Card for You! 💌
+            </a>
+          `;
+          document.getElementById("galleryBtn").style.display = "inline-block";
         }, 1200);
       }
+
+      // Logika Carousel Buku Art
+      const totalArts = 9;
+      let currentIndex = 1;
+
+      function updateSlide() {
+        const imgPath = `assets/${currentIndex}.png`;
+        document.getElementById("carouselImg").src = imgPath;
+        document.getElementById("downloadBtn").href = imgPath;
+        document.getElementById("slideCounter").textContent =
+          `${currentIndex} / ${totalArts}`;
+      }
+
+      function openGallery() {
+        currentIndex = 1;
+        updateSlide();
+        document.getElementById("galleryPopup").style.display = "flex";
+      }
+
+      function closeGallery() {
+        document.getElementById("galleryPopup").style.display = "none";
+      }
+
+      function nextSlide() {
+        currentIndex = currentIndex < totalArts ? currentIndex + 1 : 1;
+        updateSlide();
+      }
+
+      function prevSlide() {
+        currentIndex = currentIndex > 1 ? currentIndex - 1 : totalArts;
+        updateSlide();
+      }
+
       startMicDetection();
     </script>
   </body>
